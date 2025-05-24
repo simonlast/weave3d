@@ -11,28 +11,28 @@ function App() {
   const [threadThickness, setThreadThickness] = useState(0.28)
   const [weaveHeight, setWeaveHeight] = useState(0.3)
   const [gridSize, setGridSize] = useState(33)
-  const [weftColor, setWeftColor] = useState('#4a5d7a')
-  const [warpColor, setWarpColor] = useState('#d4c5b9')
+  const [weftColor, setWeftColor] = useState('#8B9DC3')
+  const [warpColor, setWarpColor] = useState('#F4E8D0')
   const [showControls, setShowControls] = useState(true)
 
   const weaveTypes: WeaveType[] = ['plain', 'twill', 'satin', 'basket']
   
   const weftPresets = [
-    '#4a5d7a', // Slate blue (default)
-    '#8b4513', // Saddle brown
-    '#2f4f4f', // Dark slate gray
-    '#483d8b', // Dark slate blue
-    '#8b0000', // Dark red
-    '#556b2f'  // Dark olive green
+    '#8B9DC3', // Soft blue (default)
+    '#D4A5A5', // Dusty rose
+    '#A8DADC', // Powder blue
+    '#B5A7C6', // Lavender
+    '#C9ADA7', // Warm gray
+    '#A5C9A5'  // Sage green
   ]
   
   const warpPresets = [
-    '#d4c5b9', // Beige (default)
-    '#f5deb3', // Wheat
-    '#faebd7', // Antique white
-    '#e6e6fa', // Lavender
-    '#ffe4c4', // Bisque
-    '#f0e68c'  // Khaki
+    '#F4E8D0', // Cream (default)
+    '#FAF0E6', // Linen
+    '#FFF8DC', // Cornsilk
+    '#F5F5DC', // Beige
+    '#FFEFD5', // Papaya whip
+    '#F0EAD6'  // Eggshell
   ]
 
   return (
@@ -45,10 +45,9 @@ function App() {
           {showControls ? '×' : '☰'}
         </button>
         
-        <h3>Weave Controls</h3>
         
         <div className="control-group">
-          <label>Weave Type</label>
+          <label>Weave Pattern</label>
           <div className="weave-buttons">
             {weaveTypes.map((type) => (
               <button
@@ -121,7 +120,7 @@ function App() {
         </div>
 
         <div className="control-group">
-          <label>Weft Color</label>
+          <label>Weft Color (Horizontal)</label>
           <div className="color-presets">
             {weftPresets.map((color) => (
               <button
@@ -141,7 +140,7 @@ function App() {
         </div>
 
         <div className="control-group">
-          <label>Warp Color</label>
+          <label>Warp Color (Vertical)</label>
           <div className="color-presets">
             {warpPresets.map((color) => (
               <button
