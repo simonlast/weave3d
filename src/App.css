@@ -1,0 +1,29 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.zoom-slider {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 300px;
+  width: 30px;
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Webkit */
+  background: rgba(255, 255, 255, 0.8);
+  outline: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Firefox */
+.zoom-slider[orient="vertical"] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 30px;
+  height: 300px;
+}
