@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import * as THREE from 'three'
 import { WeaveType } from '../App'
@@ -10,7 +10,6 @@ interface WeavePattern3DProps {
   threadSpacing: number
   threadThickness: number
   weaveHeight: number
-  gridSize: number
   weftColor: string
   warpColor: string
   materialType?: 'cotton' | 'silk' | 'wool' | 'synthetic'
@@ -101,14 +100,28 @@ interface WeaveSceneProps {
   threadSpacing: number
   threadThickness: number
   weaveHeight: number
-  gridSize: number
   weftColor: string
   warpColor: string
   materialType?: 'cotton' | 'silk' | 'wool' | 'synthetic'
 }
 
-function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor, materialType = 'cotton' }: WeaveSceneProps) {
+function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, weftColor, warpColor, materialType = 'cotton' }: WeaveSceneProps) {
   const groupRef = useRef<THREE.Group>(null)
+  const { viewport } = useThree()
+  
+  // Calculate grid size based on viewport and zoom
+  const gridSize = useMemo(() => {
+    // Calculate visible area based on zoom
+    const visibleWidth = viewport.width * (50 / zoom)
+    const visibleHeight = viewport.height * (50 / zoom)
+    
+    // Calculate how many threads fit in the visible area
+    const threadsX = Math.ceil(visibleWidth / threadSpacing) + 4 // Add padding
+    const threadsY = Math.ceil(visibleHeight / threadSpacing) + 4
+    
+    // Use the larger dimension to ensure square grid that covers viewport
+    return Math.max(threadsX, threadsY, 20) // Minimum 20 for quality
+  }, [viewport.width, viewport.height, zoom, threadSpacing])
   
   const isWarpOver = (row: number, col: number): boolean => {
     switch (weaveType) {
@@ -193,7 +206,7 @@ function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeig
   )
 }
 
-export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor, materialType = 'cotton' }: WeavePattern3DProps) {
+export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, weftColor, warpColor, materialType = 'cotton' }: WeavePattern3DProps) {
   return (
     <div style={{ width: '100%', height: '100%', background: 'white' }}>
       <Canvas shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}>
@@ -235,7 +248,6 @@ export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness
           threadSpacing={threadSpacing}
           threadThickness={threadThickness}
           weaveHeight={weaveHeight}
-          gridSize={gridSize}
           weftColor={weftColor}
           warpColor={warpColor}
           materialType={materialType}

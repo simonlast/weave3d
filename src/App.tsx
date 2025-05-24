@@ -10,7 +10,6 @@ function App() {
   const [threadSpacing, setThreadSpacing] = useState(0.8)
   const [threadThickness, setThreadThickness] = useState(0.28)
   const [weaveHeight, setWeaveHeight] = useState(0.3)
-  const [gridSize, setGridSize] = useState(35)
   const [weftColor, setWeftColor] = useState('#A5C9A5')
   const [warpColor, setWarpColor] = useState('#F4E8D0')
   const [showControls, setShowControls] = useState(true)
@@ -109,16 +108,6 @@ function App() {
           />
         </div>
 
-        <div className="control-group">
-          <label>Grid Size: {gridSize}</label>
-          <input
-            type="range"
-            min="15"
-            max="50"
-            value={gridSize}
-            onChange={(e) => setGridSize(Number(e.target.value))}
-          />
-        </div>
 
         <div className="control-group">
           <label>Weft Color (Horizontal)</label>
@@ -197,7 +186,6 @@ function App() {
         threadSpacing={threadSpacing}
         threadThickness={threadThickness}
         weaveHeight={weaveHeight}
-        gridSize={gridSize}
         weftColor={weftColor}
         warpColor={warpColor}
         materialType={materialType}
