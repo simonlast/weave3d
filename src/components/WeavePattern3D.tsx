@@ -136,7 +136,22 @@ export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness
     <div style={{ width: '100%', height: '100%', background: '#f0f0f0' }}>
       <Canvas>
         <PerspectiveCamera makeDefault position={[0, 20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-        <OrbitControls enablePan={true} enableZoom={true} enableRotate={false} />
+        <OrbitControls 
+          enablePan={true} 
+          enableZoom={true} 
+          enableRotate={false}
+          mouseButtons={{
+            LEFT: THREE.MOUSE.PAN,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.PAN
+          }}
+          touches={{
+            ONE: THREE.TOUCH.PAN,
+            TWO: THREE.TOUCH.DOLLY_PAN
+          }}
+          screenSpacePanning={true}
+          zoomToCursor={true}
+        />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <WeaveScene 
