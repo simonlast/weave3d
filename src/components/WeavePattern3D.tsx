@@ -13,29 +13,83 @@ interface WeavePattern3DProps {
   gridSize: number
   weftColor: string
   warpColor: string
+  materialType?: 'cotton' | 'silk' | 'wool' | 'synthetic'
 }
 
 interface ThreadProps {
   points: THREE.Vector3[]
   color: string
   radius?: number
+  materialType?: 'cotton' | 'silk' | 'wool' | 'synthetic'
 }
 
-function Thread({ points, color, radius = 0.05 }: ThreadProps) {
+function Thread({ points, color, radius = 0.05, materialType = 'cotton' }: ThreadProps) {
+  const meshRef = useRef<THREE.Mesh>(null)
   const curve = useMemo(() => new THREE.CatmullRomCurve3(points), [points])
   
+  // Create geometry with higher resolution for better quality
   const geometry = useMemo(() => {
-    return new THREE.TubeGeometry(curve, 64, radius, 8, false)
+    const tubularSegments = 96
+    const radialSegments = 10
+    return new THREE.TubeGeometry(curve, tubularSegments, radius, radialSegments, false)
   }, [curve, radius])
+  
+  // Material properties for different thread types
+  const materialProps = useMemo(() => {
+    const materials = {
+      cotton: { 
+        roughness: 0.7, 
+        metalness: 0.0, 
+        sheen: 0.3,
+        sheenRoughness: 0.8,
+        sheenColor: new THREE.Color(color).multiplyScalar(1.1),
+        clearcoat: 0,
+        clearcoatRoughness: 0
+      },
+      silk: { 
+        roughness: 0.2, 
+        metalness: 0.05, 
+        sheen: 0.9,
+        sheenRoughness: 0.2,
+        sheenColor: new THREE.Color(color).multiplyScalar(1.3),
+        clearcoat: 0.3,
+        clearcoatRoughness: 0.1
+      },
+      wool: { 
+        roughness: 0.85, 
+        metalness: 0.0, 
+        sheen: 0.2,
+        sheenRoughness: 0.9,
+        sheenColor: new THREE.Color(color).multiplyScalar(1.05),
+        clearcoat: 0,
+        clearcoatRoughness: 0
+      },
+      synthetic: { 
+        roughness: 0.3, 
+        metalness: 0.1, 
+        sheen: 0.7,
+        sheenRoughness: 0.3,
+        sheenColor: new THREE.Color(color).multiplyScalar(1.2),
+        clearcoat: 0.5,
+        clearcoatRoughness: 0.05
+      }
+    }
+    return materials[materialType]
+  }, [materialType, color])
 
   return (
-    <mesh>
-      <primitive object={geometry} />
-      <meshStandardMaterial 
+    <mesh ref={meshRef} geometry={geometry} castShadow receiveShadow>
+      <meshPhysicalMaterial 
         color={color}
-        roughness={0.6}
-        metalness={0.1}
-        envMapIntensity={0.5}
+        roughness={materialProps.roughness}
+        metalness={materialProps.metalness}
+        sheen={materialProps.sheen}
+        sheenRoughness={materialProps.sheenRoughness}
+        sheenColor={materialProps.sheenColor}
+        clearcoat={materialProps.clearcoat}
+        clearcoatRoughness={materialProps.clearcoatRoughness}
+        envMapIntensity={1.2}
+        side={THREE.DoubleSide}
       />
     </mesh>
   )
@@ -50,9 +104,10 @@ interface WeaveSceneProps {
   gridSize: number
   weftColor: string
   warpColor: string
+  materialType?: 'cotton' | 'silk' | 'wool' | 'synthetic'
 }
 
-function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor }: WeaveSceneProps) {
+function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor, materialType = 'cotton' }: WeaveSceneProps) {
   const groupRef = useRef<THREE.Group>(null)
   
   const isWarpOver = (row: number, col: number): boolean => {
@@ -94,6 +149,7 @@ function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeig
           points={points}
           color={weftColor}
           radius={threadThickness}
+          materialType={materialType}
         />
       )
     }
@@ -116,12 +172,13 @@ function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeig
           points={points}
           color={warpColor}
           radius={threadThickness}
+          materialType={materialType}
         />
       )
     }
 
     return [...weftThreads, ...warpThreads]
-  }, [weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor])
+  }, [weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor, materialType])
 
   useFrame(() => {
     if (groupRef.current) {
@@ -136,10 +193,10 @@ function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeig
   )
 }
 
-export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor }: WeavePattern3DProps) {
+export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor, materialType = 'cotton' }: WeavePattern3DProps) {
   return (
     <div style={{ width: '100%', height: '100%', background: 'white' }}>
-      <Canvas>
+      <Canvas shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}>
         <PerspectiveCamera makeDefault position={[0, 20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
         <OrbitControls 
           enablePan={true} 
@@ -157,9 +214,21 @@ export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness
           screenSpacePanning={true}
           zoomToCursor={true}
         />
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[10, 10, 5]} intensity={0.8} />
-        <directionalLight position={[-10, 10, -5]} intensity={0.4} />
+        <ambientLight intensity={0.4} />
+        <directionalLight 
+          position={[10, 20, 5]} 
+          intensity={1.2}
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+          shadow-camera-far={50}
+          shadow-camera-left={-20}
+          shadow-camera-right={20}
+          shadow-camera-top={20}
+          shadow-camera-bottom={-20}
+        />
+        <directionalLight position={[-5, 15, -5]} intensity={0.6} color="#ffeedd" />
+        <directionalLight position={[0, 5, 10]} intensity={0.3} color="#ddeeff" />
+        <fog attach="fog" args={['white', 30, 60]} />
         <WeaveScene 
           zoom={zoom} 
           weaveType={weaveType}
@@ -169,6 +238,7 @@ export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness
           gridSize={gridSize}
           weftColor={weftColor}
           warpColor={warpColor}
+          materialType={materialType}
         />
       </Canvas>
     </div>

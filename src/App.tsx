@@ -10,10 +10,11 @@ function App() {
   const [threadSpacing, setThreadSpacing] = useState(0.8)
   const [threadThickness, setThreadThickness] = useState(0.28)
   const [weaveHeight, setWeaveHeight] = useState(0.3)
-  const [gridSize, setGridSize] = useState(33)
-  const [weftColor, setWeftColor] = useState('#8B9DC3')
+  const [gridSize, setGridSize] = useState(35)
+  const [weftColor, setWeftColor] = useState('#A5C9A5')
   const [warpColor, setWarpColor] = useState('#F4E8D0')
   const [showControls, setShowControls] = useState(true)
+  const [materialType, setMaterialType] = useState<'cotton' | 'silk' | 'wool' | 'synthetic'>('cotton')
 
   const weaveTypes: WeaveType[] = ['plain', 'twill', 'satin', 'basket']
   
@@ -158,6 +159,36 @@ function App() {
             onChange={(e) => setWarpColor(e.target.value)}
           />
         </div>
+
+        <div className="control-group">
+          <label>Thread Material</label>
+          <div className="weave-buttons">
+            <button
+              className={`weave-button ${materialType === 'cotton' ? 'active' : ''}`}
+              onClick={() => setMaterialType('cotton')}
+            >
+              Cotton
+            </button>
+            <button
+              className={`weave-button ${materialType === 'silk' ? 'active' : ''}`}
+              onClick={() => setMaterialType('silk')}
+            >
+              Silk
+            </button>
+            <button
+              className={`weave-button ${materialType === 'wool' ? 'active' : ''}`}
+              onClick={() => setMaterialType('wool')}
+            >
+              Wool
+            </button>
+            <button
+              className={`weave-button ${materialType === 'synthetic' ? 'active' : ''}`}
+              onClick={() => setMaterialType('synthetic')}
+            >
+              Synthetic
+            </button>
+          </div>
+        </div>
       </div>
       
       <WeavePattern3D 
@@ -169,6 +200,7 @@ function App() {
         gridSize={gridSize}
         weftColor={weftColor}
         warpColor={warpColor}
+        materialType={materialType}
       />
     </div>
   )
