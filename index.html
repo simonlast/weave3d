@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weaving Pattern Simulator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #zoom-slider {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 300px;
+            width: 30px;
+            -webkit-appearance: slider-vertical;
+            background: rgba(255, 255, 255, 0.8);
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <input type="range" id="zoom-slider" min="5" max="50" value="20" orient="vertical">
+    <script src="sketch.js"></script>
+</body>
+</html>
