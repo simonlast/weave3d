@@ -10,10 +10,13 @@
     "test": "tsc --noEmit"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "@types/p5": "^1.7.0",
+    "p5": "^1.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "p5": "^1.7.0",
-    "@types/p5": "^1.7.0"
+    "three": "^0.176.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

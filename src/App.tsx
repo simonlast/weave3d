@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import WeavePattern from './components/WeavePattern'
+import { WeavePattern3D } from './components/WeavePattern3D'
 import './App.css'
 
 export type WeaveType = 'plain' | 'twill' | 'satin' | 'basket'
@@ -23,7 +23,7 @@ function App() {
           </button>
         ))}
       </div>
-      <WeavePattern zoom={zoom} weaveType={weaveType} />
+      <WeavePattern3D zoom={zoom} weaveType={weaveType} />
       <input
         type="range"
         className="zoom-slider"
