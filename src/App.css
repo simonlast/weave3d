@@ -38,16 +38,92 @@
   color: white;
 }
 
-.zoom-slider {
+.control-panel {
   position: fixed;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center center;
-  width: 300px;
-  height: 30px;
-  background: rgba(255, 255, 255, 0.8);
+  top: 60px;
+  right: -300px;
+  width: 280px;
+  height: calc(100vh - 80px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 15;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.control-panel.visible {
+  right: 0;
+}
+
+.toggle-controls {
+  position: absolute;
+  left: -40px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px 0 0 4px;
+}
+
+.control-panel h3 {
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #333;
+}
+
+.control-group {
+  margin-bottom: 20px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.control-group input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: #ddd;
   outline: none;
   cursor: pointer;
-  z-index: 10;
+  border-radius: 3px;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #333;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #333;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+}
+
+.control-group input[type="color"] {
+  width: 100%;
+  height: 40px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 2px;
 }

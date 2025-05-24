@@ -7,6 +7,12 @@ import { WeaveType } from '../App'
 interface WeavePattern3DProps {
   zoom: number
   weaveType: WeaveType
+  threadSpacing: number
+  threadThickness: number
+  weaveHeight: number
+  gridSize: number
+  weftColor: string
+  warpColor: string
 }
 
 interface ThreadProps {
@@ -33,9 +39,15 @@ function Thread({ points, color, radius = 0.05 }: ThreadProps) {
 interface WeaveSceneProps {
   zoom: number
   weaveType: WeaveType
+  threadSpacing: number
+  threadThickness: number
+  weaveHeight: number
+  gridSize: number
+  weftColor: string
+  warpColor: string
 }
 
-function WeaveScene({ zoom, weaveType }: WeaveSceneProps) {
+function WeaveScene({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor }: WeaveSceneProps) {
   const groupRef = useRef<THREE.Group>(null)
   
   const isWarpOver = (row: number, col: number): boolean => {
@@ -56,9 +68,6 @@ function WeaveScene({ zoom, weaveType }: WeaveSceneProps) {
   }
 
   const threads = useMemo(() => {
-    const threadSpacing = 1
-    const weaveHeight = 0.3
-    const gridSize = 20
     const weftThreads: JSX.Element[] = []
     const warpThreads: JSX.Element[] = []
 
@@ -78,8 +87,8 @@ function WeaveScene({ zoom, weaveType }: WeaveSceneProps) {
         <Thread
           key={`weft-${row}`}
           points={points}
-          color="#14407a"
-          radius={0.15}
+          color={weftColor}
+          radius={threadThickness}
         />
       )
     }
@@ -100,14 +109,14 @@ function WeaveScene({ zoom, weaveType }: WeaveSceneProps) {
         <Thread
           key={`warp-${col}`}
           points={points}
-          color="#b4a08c"
-          radius={0.15}
+          color={warpColor}
+          radius={threadThickness}
         />
       )
     }
 
     return [...weftThreads, ...warpThreads]
-  }, [weaveType])
+  }, [weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor])
 
   useFrame(() => {
     if (groupRef.current) {
@@ -122,7 +131,7 @@ function WeaveScene({ zoom, weaveType }: WeaveSceneProps) {
   )
 }
 
-export function WeavePattern3D({ zoom, weaveType }: WeavePattern3DProps) {
+export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness, weaveHeight, gridSize, weftColor, warpColor }: WeavePattern3DProps) {
   return (
     <div style={{ width: '100%', height: '100%', background: '#f0f0f0' }}>
       <Canvas>
@@ -130,7 +139,16 @@ export function WeavePattern3D({ zoom, weaveType }: WeavePattern3DProps) {
         <OrbitControls enablePan={true} enableZoom={true} enableRotate={false} />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
-        <WeaveScene zoom={zoom} weaveType={weaveType} />
+        <WeaveScene 
+          zoom={zoom} 
+          weaveType={weaveType}
+          threadSpacing={threadSpacing}
+          threadThickness={threadThickness}
+          weaveHeight={weaveHeight}
+          gridSize={gridSize}
+          weftColor={weftColor}
+          warpColor={warpColor}
+        />
       </Canvas>
     </div>
   )
