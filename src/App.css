@@ -5,16 +5,10 @@
 }
 
 .weave-buttons {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .weave-button {
@@ -40,37 +34,37 @@
 
 .control-panel {
   position: fixed;
-  top: 60px;
-  right: -300px;
-  width: 280px;
-  height: calc(100vh - 80px);
+  top: 0;
+  left: -320px;
+  width: 300px;
+  height: 100vh;
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease;
   z-index: 15;
   padding: 20px;
   overflow-y: auto;
 }
 
 .control-panel.visible {
-  right: 0;
+  left: 0;
 }
 
 .toggle-controls {
   position: absolute;
-  left: -40px;
+  right: -40px;
   top: 20px;
   width: 40px;
   height: 40px;
   background: rgba(255, 255, 255, 0.95);
   border: none;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px 0 0 4px;
+  border-radius: 0 4px 4px 0;
 }
 
 .control-panel h3 {

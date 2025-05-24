@@ -19,18 +19,6 @@ function App() {
 
   return (
     <div className="app">
-      <div className="weave-buttons">
-        {weaveTypes.map((type) => (
-          <button
-            key={type}
-            className={`weave-button ${weaveType === type ? 'active' : ''}`}
-            onClick={() => setWeaveType(type)}
-          >
-            {type.charAt(0).toUpperCase() + type.slice(1)} Weave
-          </button>
-        ))}
-      </div>
-      
       <div className={`control-panel ${showControls ? 'visible' : ''}`}>
         <button 
           className="toggle-controls"
@@ -40,6 +28,21 @@ function App() {
         </button>
         
         <h3>Weave Controls</h3>
+        
+        <div className="control-group">
+          <label>Weave Type</label>
+          <div className="weave-buttons">
+            {weaveTypes.map((type) => (
+              <button
+                key={type}
+                className={`weave-button ${weaveType === type ? 'active' : ''}`}
+                onClick={() => setWeaveType(type)}
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
         
         <div className="control-group">
           <label>Zoom: {zoom}</label>
