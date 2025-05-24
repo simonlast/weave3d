@@ -4,6 +4,40 @@
   position: relative;
 }
 
+.weave-buttons {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+}
+
+.weave-button {
+  padding: 8px 16px;
+  border: 2px solid #333;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.weave-button:hover {
+  background: #f0f0f0;
+}
+
+.weave-button.active {
+  background: #333;
+  color: white;
+}
+
 .zoom-slider {
   position: fixed;
   right: 20px;
