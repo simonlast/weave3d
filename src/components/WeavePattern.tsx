@@ -8,6 +8,11 @@ interface WeavePatternProps {
 const WeavePattern: React.FC<WeavePatternProps> = ({ zoom }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const p5InstanceRef = useRef<p5 | null>(null)
+  const zoomRef = useRef(zoom)
+
+  useEffect(() => {
+    zoomRef.current = zoom
+  }, [zoom])
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -24,7 +29,7 @@ const WeavePattern: React.FC<WeavePatternProps> = ({ zoom }) => {
       p.draw = () => {
         p.background(240)
         
-        const threadSize = zoom
+        const threadSize = zoomRef.current
         const warpCount = Math.ceil(p.width / threadSize) + 2
         const weftCount = Math.ceil(p.height / threadSize) + 2
         

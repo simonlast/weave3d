@@ -15,7 +15,6 @@ function App() {
         max="50"
         value={zoom}
         onChange={(e) => setZoom(Number(e.target.value))}
-        orient="vertical"
       />
     </div>
   )
