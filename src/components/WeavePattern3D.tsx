@@ -241,7 +241,6 @@ export function WeavePattern3D({ zoom, weaveType, threadSpacing, threadThickness
         />
         <directionalLight position={[-5, 15, -5]} intensity={0.6} color="#ffeedd" />
         <directionalLight position={[0, 5, 10]} intensity={0.3} color="#ddeeff" />
-        <fog attach="fog" args={['white', 30, 60]} />
         <WeaveScene 
           zoom={zoom} 
           weaveType={weaveType}
